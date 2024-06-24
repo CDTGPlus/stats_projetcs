@@ -7,30 +7,36 @@ def process_input(data):
         return 'Please enter data in valid format'
     alpha = []
     for x in  data.split(','):  
-        vd = True
+        valid = True
+        negative = False
         cnt = 0
         var = ''
+        
         for n in x:
+            if n == '-':
+                negative = True 
+                continue
             if n == ' ':
                 continue
             if n.isnumeric() == False and n != '.':
-                vd = False
+                valid = False
             if n == '.':
                 cnt += 1
-                if len(var) > 0:
-                    var += n
-                else:
-                    vd = False
-            else:
-                var += n
-            if cnt == 2:
-                vd = False
+    
+            var += n
+            if cnt > 1:
+                valid = False
                 
-            if vd == False:
+            if valid == False:
                 break
-        if vd == True:
-            alpha.append(float(var))
+
+        if valid == True:
+            var = float(var)
+            if negative == True:
+                var = -(var)
+            alpha.append(var)
     return alpha
+    
 
 class probability:
     #generate z score and p values
@@ -42,10 +48,10 @@ class probability:
         return (x-m)/sd
     
     def p_values(self,zscore):
-        pv_ot_positive = round(stats.norm.cdf(zscore),4)
-        pv_ot_negative = round(stats.norm.cdf(-(zscore)),4)
+        pv_ot_negative = round(stats.norm.cdf(zscore),4)
+        pv_ot_positive = round(stats.norm.cdf(-(zscore)),4)
         pv_tt = round(2 * (1 - stats.norm.cdf(abs(zscore))),4)
-        p_vals = [pv_ot_positive,pv_ot_negative,pv_tt]
+        p_vals = [pv_ot_negative,pv_ot_positive,pv_tt]
         return p_vals
 
 class summary_stats:
