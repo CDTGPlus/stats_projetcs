@@ -2,9 +2,10 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from sm_backend import * 
-# Allow user input for data analysis and calculation
+# Allow user input for data analysis and calculations
 st.set_page_config('Statistical Metrics',page_icon=':bar_chart:')
-option = st.selectbox('Select Indicator',('Summary Statistics','Probability (Z-Score)'))
+user_options = ('Summary Statistics','Probability (Z-Score)','Combinatorics')
+option = st.selectbox('Select Indicator',user_options)
 if option == 'Summary Statistics':
     nums = st.text_area('Enter numbers separated by " , " (comma):')
     process = st.button('Enter')
@@ -48,3 +49,16 @@ elif option == 'Probability (Z-Score)':
             st.write('Two tailed test:',str(prob.pvals[2]))
         else:
             st.write('Enter valid data')
+
+elif option == 'Combinatorics':
+    n_set = st.number_input('Enter amount in set n')
+    r_sub = st.number_input('Enter amount in subset r')
+    process = st.button('Enter')
+    if process:
+        if n_set and r_sub:
+            try:
+                comb = combinatorial(n_set,r_sub)
+                st.write('Combinations:',str(comb.combination()))
+                st.write('Permutations:',str(comb.permutation()))
+            except ValueError as e:
+                st.write('Data not valid')   

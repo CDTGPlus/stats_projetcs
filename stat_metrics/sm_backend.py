@@ -103,4 +103,22 @@ class summary_stats:
 
         return quartile1,quartile3,interQrt_range
 
+#combinatorics class
+#returns combinations and permuatitions
+class combinatorial:
+    def __init__(self,n,r):
+        self.n = n
+        self.r = r
+
+    def combination(self):
+        return combinatorial.factorial(self.n)/(combinatorial.factorial(self.r)*combinatorial.factorial(self.n-self.r))
+
+    def permutation(self):
+        return combinatorial.factorial(self.n)/combinatorial.factorial(self.n-self.r)
+
+    def factorial(num):
+        ans = 1
+        for i in range(1,int(num)+1):
+            ans *= i
+        return ans
 
