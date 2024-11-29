@@ -6,19 +6,23 @@ def process_input(data):
     if ',' not in data:
         return 'Please enter data in valid format'
     alpha = []
-    for x in  data.split(','):  
+    print(data)
+    for x in  data.split(','): 
+        print(x) 
         valid = True
         negative = False
         cnt = 0
         var = ''
         
         for n in x:
+            # print(x,n)
             if n == '-':
                 negative = True 
                 continue
             if n == ' ':
                 continue
             if n.isnumeric() == False and n != '.':
+                # print('Alert:',n)
                 valid = False
             if n == '.':
                 cnt += 1
@@ -29,7 +33,7 @@ def process_input(data):
                 
             if valid == False:
                 break
-
+        # print(var)
         if valid == True:
             var = float(var)
             if negative == True:
@@ -50,8 +54,9 @@ class probability:
     def p_values(self,zscore):
         pv_ot_negative = round(stats.norm.cdf(zscore),4)
         pv_ot_positive = round(stats.norm.cdf(-(zscore)),4)
+        pv_bet = round(stats.norm.cdf(zscore)-0.5,4)
         pv_tt = round(2 * (1 - stats.norm.cdf(abs(zscore))),4)
-        p_vals = [pv_ot_negative,pv_ot_positive,pv_tt]
+        p_vals = [pv_ot_negative,pv_ot_positive,pv_bet,pv_tt]
         return p_vals
 
 class summary_stats:

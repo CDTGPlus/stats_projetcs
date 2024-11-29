@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from sm_backend import * 
-# Allow user input for data analysis and calculations
+
 st.set_page_config('Statistical Metrics',page_icon=':bar_chart:')
+st.title('Stat Metrics')
+# Allow user input for data analysis and calculations
 user_options = ('Summary Statistics','Probability (Z-Score)','Combinatorics')
 option = st.selectbox('Select Indicator',user_options)
 if option == 'Summary Statistics':
@@ -44,9 +46,10 @@ elif option == 'Probability (Z-Score)':
         if var_x and mean and stdv:
             prob = probability(var_x,mean,stdv)
             st.write('Z-Score:',str(prob.zscore))
-            st.write(f'One tailed test (Negative) P(x<{var_x}):',str(prob.pvals[0]))
-            st.write(f'One tailed test (Positive) P(x>{var_x}):',str(prob.pvals[1]))
-            st.write('Two tailed test:',str(prob.pvals[2]))
+            st.write(f'One tailed test (Left) P(x < {var_x}):',str(prob.pvals[0]))
+            st.write(f'One tailed test (Right) P(x > {var_x}):',str(prob.pvals[1]))
+            st.write(f'P {mean} < x < {var_x}:',str(prob.pvals[2]))
+            st.write('Two tailed test:',str(prob.pvals[3]))
         else:
             st.write('Enter valid data')
 
